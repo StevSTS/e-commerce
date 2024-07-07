@@ -14,6 +14,8 @@ import Link from "next/link";
 import inf from '../app/Images/infi.jpg';
 import Image from "next/image";
 import { useState } from "react";
+import { RecoilRoot } from "recoil";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,6 +42,8 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
 
   const [menu , setMenu] = useState(false)
   return (
+    <RecoilRoot>
+
     <html lang="en">
       <body>
             <div className="flex justify-between ">
@@ -103,5 +107,6 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
 
       </body>
     </html>
+    </RecoilRoot>
   );
 }

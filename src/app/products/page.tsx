@@ -28,7 +28,6 @@ const Page = () => {
       .catch((err: any) => console.log(err))
       setIsLoading(false)
     }, [])
-    console.log(productsData)
     
     const [categories , setCategories] = useState(false)
 

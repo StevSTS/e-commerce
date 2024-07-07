@@ -31,29 +31,8 @@ const Box = ({title, desc, price, reviews, img, ratingsT , link} : myBox ) => {
         return count
     })
 
-    // console.log("Re " , reviews , ' Stars ' , ratingsT )
     
-    // useEffect(() => {
-    //     // editRate = Math.round(Number(ratingsT))
-    //     // rateProd = editRate
-    //     console.log(rateProd)
-    //     let stars = document.querySelectorAll('.ratings span')
-    //     stars.forEach(star => {
-    //         // star.addEventListener('click' , () => {
-    //             // star.setAttribute('cheked' , 'true')
-    //         // })
-    //         // star.setAttribute('cheked' , 'false')
-    //         let rating = star.dataset.rating;
-            
-    //         if(Math.round(rates) == Number(rating)) {
-    //             star.setAttribute('cheked' , 'true')
-    //         }else{
-    //             star.setAttribute('cheked' , 'false')
-                
-    //         }
-    //     });
-        
-    // },[rates])
+    
 
     
 
@@ -69,7 +48,7 @@ const Box = ({title, desc, price, reviews, img, ratingsT , link} : myBox ) => {
 
             <div className='boxImg relative rounded-tr-[12px] rounded-bl-[12px] bg-[#b1c3faa2] overflow-hidden'>
                 <Link href={link}>
-                    <Image width={280} height={200} className='w-full h-full object-cover' loading="lazy" src={img} alt='' />
+                    <Image priority={false} width={280} height={200} className='w-full h-full object-cover' loading="lazy" src={img} alt='' />
                 </Link>
                 <div className="View absolute opacity-0 top-0 p-2 duration-300">
                     <button onClick={() => { setView(!view) }} className="duration-[.1s] rounded-md py-1 px-2 active:scale-90 w-[36px] rotate-12"><Image src={expand} alt=""/></button>
@@ -97,11 +76,11 @@ const Box = ({title, desc, price, reviews, img, ratingsT , link} : myBox ) => {
         </div>
         <div className="p-5 md:flex md:gap-8 ">
             <div className="relative w-[45%] max-md:w-full max-md:h-[250px] max-sm:h-[200px] h-[415px] bg-[#b1c3faa2] rounded-lg ">
-                <Image width={280} height={200} className='w-full h-full object-contain ' loading="lazy" src={img} alt='' />
+                <Image priority={false} width={280} height={200} className='w-full h-full object-contain ' loading="lazy" src={img} alt='' />
                 <div className={`ratings p-3 duration-300 overflow-hidden absolute flex gap-[3px] flex-row-reverse justify-end text-[23px] mt-5 ${view ? 'bottom-0' : 'bottom-[-40px]'} `}>
                 <div className="flex items-center gap-[3px] ">
                     <Stars stars={ratingsT} />
-                    <p className="text-white text-[14px] ms-2 hover:underline">Reviews {reviews.length}</p>
+                    <p className="text-white text-[14px] ms-2 hover:underline">Reviews {reviews?.length}</p>
                 </div>
                 </div>
             </div>
@@ -120,7 +99,7 @@ const Box = ({title, desc, price, reviews, img, ratingsT , link} : myBox ) => {
                             <BsCart4 />
                         </div>
                     </div>
-                    <Link href={''} className="butn mt-4 max-sm:hidden text-white py-[5px] rounded-tr-xl rounded-bl-xl px-8 duration-300 hover:translate-y-[-3px] block w-fit">Visit</Link>
+                    <Link href={link} className="butn mt-4 max-sm:hidden text-white py-[5px] rounded-tr-xl rounded-bl-xl px-8 duration-300 hover:translate-y-[-3px] block w-fit">Visit</Link>
                 </div>
             </div>
         </div>
