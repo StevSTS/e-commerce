@@ -42,7 +42,7 @@ const Page = () => {
       <Loading />
       ) : (
       <main className='flex justify-between gap-8 mx-4 allCont'>
-        <aside className='bg-[#e1dbdbcc] sticky top-10 mt-10 rounded-lg max-xl:hidden w-[22%] h-[calc(100vh-170px)] p-3'>
+        <aside className='bg-[#eff3f58f] sticky top-10 mt-10 rounded-lg max-xl:hidden w-[22%] h-[calc(100vh-170px)] p-3'>
           <div>
             <Link onClick={() => {setCategories(!categories)}} className="flex items-center gap-1 hover:gap-2 duration-300" href={''}>
               Electronics 

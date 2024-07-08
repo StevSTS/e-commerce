@@ -46,7 +46,7 @@ const Box = ({title, desc, price, reviews, img, ratingsT , link} : myBox ) => {
     {/* w-[32.1%] max-xl:w-[31.90%] */}
         <div className='box flex flex-col gap-2 '>
 
-            <div className='boxImg relative rounded-tr-[12px] rounded-bl-[12px] bg-[#b1c3faa2] overflow-hidden'>
+            <div className='boxImg relative rounded-tr-[12px] rounded-bl-[12px] bg-[#eff3f58f] overflow-hidden'>
                 <Link href={link}>
                     <Image priority={false} width={280} height={200} className='w-full h-full object-cover' loading="lazy" src={img} alt='' />
                 </Link>

@@ -41,7 +41,7 @@ const page = () => {
   const [isLoading, setIsLoading] = useState(true)
   
   const params = useParams()
-  const [mainImgs, setMainImgs] = useState<string>('')
+  const [imgMain, setImgMain] = useState<any>()
   
   useEffect(() => {
     axios.get(`https://dummyjson.com/products/${params.single}`)
@@ -61,12 +61,36 @@ const page = () => {
 
 
       setSingleProduct(res.data)
-      setMainImgs(res.data.thumbnail)
+      setImgMain(res.data.thumbnail)
       setIsLoading(false)
       
     })
     .catch(err => console.log(err))
   },[])
+
+
+
+
+  const nameInp = useRef<HTMLInputElement>(null)
+    const commInp = useRef<HTMLInputElement>(null)
+
+    const [ commAtom , setCommAtom ] = useRecoilState(CommentAtom)
+
+    function getVal() {
+      const newComment = {
+        rating: 3,
+        comment: commInp.current?.value,
+        date: new Date().toISOString(),
+        reviewerName: nameInp.current?.value,
+      };
+      
+
+      const newArr = [newComment, ...commAtom];
+      setCommAtom(newArr)
+      console.log( 'newArr' , newArr)
+      localStorage.setItem('newComm', JSON.stringify(newArr))
+    }
+    console.log(commAtom)
 
   let count = 0
 
@@ -87,43 +111,22 @@ const page = () => {
     // console.log('4 Star' ,star4)
     // console.log('5 Star' ,star5)
     
-    let rev = count / singleProduct?.reviews?.length
+    let rev = count / commAtom.length
 
     // console.log(singleProduct)
     
-    let st5 = Math.round((star5 / singleProduct?.reviews?.length) * 100 )
-    let st4 = Math.round((star4 / singleProduct?.reviews?.length) * 100 )
-    let st3 = Math.round((star3 / singleProduct?.reviews?.length) * 100 )
-    let st2 = Math.round((star2 / singleProduct?.reviews?.length) * 100 )
-    let st1 = Math.round((star1 / singleProduct?.reviews?.length) * 100 )
+    let st5 = Math.round((star5 / commAtom.length) * 100 )
+    let st4 = Math.round((star4 / commAtom.length) * 100 )
+    let st3 = Math.round((star3 / commAtom.length) * 100 )
+    let st2 = Math.round((star2 / commAtom.length) * 100 )
+    let st1 = Math.round((star1 / commAtom.length) * 100 )
 
-    // console.log(singleProduct)
 
     const [comm, setComm] = useState(false)
 
-    const nameInp = useRef<HTMLInputElement>(null)
-    const commInp = useRef<HTMLInputElement>(null)
-
-    const [commAtom, setCommAtom] = useRecoilState(CommentAtom);
-
-
-    function getVal() {
-      const newComment = {
-        rating: 3, // يمكنك تغيير هذا إلى القيمة المطلوبة
-        comment: commInp.current?.value,
-        date: new Date().toISOString(), // إضافة التاريخ الحالي
-        reviewerName: nameInp.current?.value,
-      };
-
-      const newComm = [newComment, ...singleProduct?.reviews];
-
-      // setSingleProduct(prev => ({ ...prev, reviews: newComm }));
-      // setCommAtom(newComm);
-      // localStorage.setItem('newComm', JSON.stringify(newComm));
-    }
     
-    // console.log( 'newComm ', commAtom)
-    // console.log( 'singleProduct ', singleProduct)
+
+
 
   return (
     <>
@@ -139,13 +142,13 @@ const page = () => {
           {
             singleProduct?.images.map((img : any, index : number) => {
               return (
-                  <Image priority={false} loading='lazy' key={index} onClick={() => setMainImgs(img) } className='w-full h-full object-contain rounded-xl border-2 border-green-40 cursor-pointer' src={img} width={450} height={450} alt=''></Image>
+                  <Image priority={false} loading='lazy' key={index} onClick={() => setImgMain(img) } className='w-full h-full object-contain rounded-xl border-2 border-green-40 cursor-pointer' src={img} width={450} height={450} alt=''></Image>
                 )
               })
             }
             </div>
           <div className='h-auto w-full'>
-              <Image priority={false} loading='lazy' src={mainImgs} className='w-full h-full object-contain max-h-[462px] ' width={462} height={462} alt='' />
+              <Image priority={false} loading='lazy' src={imgMain} className='w-full h-full object-contain max-h-[462px] ' width={462} height={462} alt='' />
           </div>
         </div>
 
@@ -167,13 +170,13 @@ const page = () => {
                 </div>  
               </div>
 
-              <div className='StarsInfo opacity-0 invisible duration-300 p-4 absolute arro border-[#888c8c4e] shadow-xl top-[calc(100%+8px)] left-1/2 -translate-x-1/2 border-[1px]  rounded-lg bg-[white] w-[332px] h-[325px]'>
+              <div className='StarsInfo opacity-0 invisible duration-300 p-4 absolute arro border-[#888c8c4e] shadow-xl top-[calc(100%+8px)] left-1/2 -translate-x-1/2 border-[1px] rounded-lg bg-[white] w-[332px] h-[325px]'>
                   <div className="text-[#888c8c4e] absolute bottom-[calc(100%-5px)] text-[20px] left-1/2 -translate-x-1/2 "><AiFillCaretUp /></div>
                   <div className="flex items-center ">
                     <ProductStars stars={rev} />
                     <p className='ml-[6px] text-[17px] font-[600]'>{rev.toFixed(1)} out of 5</p>
                   </div>
-                  <p className="mt-2 mb-4 ">{singleProduct?.reviews?.length} global ratings</p>
+                  <p className="mt-2 mb-4 ">{commAtom.length} global ratings</p>
                   <PercentileRating star="5" percent={st5} styles={{width: `${st5}%`}} />
                   <PercentileRating star="4" percent={st4} styles={{width: `${st4}%`}} />
                   <PercentileRating star="3" percent={st3} styles={{width: `${st3}%`}} />
@@ -183,7 +186,7 @@ const page = () => {
             </div>
             |
             <div>
-              <a href="#revw" className="hover:underline "> {singleProduct?.reviews?.length} ratings</a>
+              <a href="#revw" className="hover:underline "> {commAtom.length} ratings</a>
             </div>
           </div>
 
@@ -223,8 +226,9 @@ const page = () => {
     </div>
 
 
+          
           {
-            singleProduct?.reviews.map((reviewer : any, index : number) => {
+            commAtom.map((reviewer : any, index : number) => {
               return(
                 <Reviewer key={index} name={reviewer.reviewerName} comment={reviewer.comment} date={reviewer.date} stars={reviewer.rating} />
               )
